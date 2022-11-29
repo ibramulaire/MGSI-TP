@@ -1,23 +1,28 @@
-CCC=g++
-CFLAGS=-Wall -I/urs/local/include
+EXT = cpp
+CXX=g++
+CFLAGS=-Wall -I/usr/local/include
 CFLAGS=
-LDFLAGS= -lGL -lGLEW -lGLU -lglut -larmadillo
+LDFLAGS= -lGL -lGLEW -lGLU -lglut  -larmadillo
+#LDFLAGS= -lGL -lGLU -lGLEW -lglut -lm 
+#LDFLAGS= -lGL -lGLU -lGLEW -lglut -lglui
 
+#SRC=saisieinteractive.cpp courbe.cpp
+SRC=$(wildcard *.$(EXT))
+# $(wildcard ./utilstexture/*.$(EXT))
+OBJ = $(SRC:.$(EXT)=.o)
 
-SRC=main.cpp 
 DEBUBFLAG=-g
 
-OBJ= $(SRC:.cpp=.o)
 BIN=./
 EXEC=main
 
 all: $(EXEC)
 
-main: $(OBJ)
-		$(CCC) -g  -o $(BIN)$@ $^ $(LDFLAGS)
+$(EXEC): $(OBJ)
+		$(CXX)  -o $(BIN)$@ $^ $(LDFLAGS)
 
 %.o: %.cpp
-		$(CCC) -g -o $@ -c $< $(CFLAGS)
+		$(CXX)  -o $@ -c $< $(CFLAGS)
 
 
 clean:
@@ -25,4 +30,3 @@ clean:
 
 mrproper: clean
 		rm -rf $(BIN)$(EXEC)
-
