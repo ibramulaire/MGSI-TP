@@ -49,7 +49,7 @@ return res;
 void main(){
 float tmin=0.;
 float tmax=1.;
-float tethamax=5*PI;
+float tethamax=2*PI;
 if(deformation==0.0)
 matT=  mat3(
                         1, 0, 0, 
@@ -83,7 +83,7 @@ if(deformation==1.0)
     color=vec4(position,1.0);
     gl_Position= MVP* vec4((matT*position),1.0);
     fragPosition =vec3(MODEL* vec4((matT*position),1.0));
-	fragNormale =normale;
+  	fragNormale =normale;
 }
 
 
