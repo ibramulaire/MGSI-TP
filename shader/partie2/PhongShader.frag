@@ -35,8 +35,8 @@ void main()
     vec3 directionlumiere= normalize(light.position-fragPosition); 
     vec3 normale = normalize(transpose(inverse(mat3(MODEL)))*fragNormale);
     float diffcoef = max(dot(normale, directionlumiere), 0.0);
-    difuse =vec4(light.intensities,1.0)*color;
-  /*
+   // difuse =vec4(light.intensities*diffcoef,1.0)*color;
+
    if(shad==1.0)
    { 
     if(diffcoef<0.90)
@@ -70,7 +70,7 @@ void main()
 
 
    }
- */
+ 
     vec3 directionvue= normalize(cameraPosition-fragPosition);
     float vuedircoeff=max(dot(normale, directionvue), 0.0);
     
