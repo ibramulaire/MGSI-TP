@@ -472,11 +472,13 @@ void clavier(unsigned char touche,int x,int y)
       silouette=0.0;
       else
        silouette=1.0;
-    case 'T': //active silhouette ou pas 
+        break;
+    case 't': //active silhouette ou pas 
       if(deformation<2)
       deformation++;
       else
        deformation=0.0;
+      break;
 
 
 
