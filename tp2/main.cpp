@@ -19,8 +19,8 @@ void mouseMotion(int, int);
 void calcules();
 //void reshape(int,int);
 int t=50 ;
-float u=0.5 ;
-float v=0.5;
+int u=0 ;
+int v=0;
 // variables globales pour OpenGL
 bool mouseLeftDown;
 bool mouseRightDown;
@@ -30,9 +30,9 @@ float cameraAngleX;
 float cameraAngleY;
 float cameraDistance=0.;
 
-int n=1000;
+int n=100;
 Surface c;
-Sommet point[1000][1000];
+Sommet point[100][100];
 
 
 // constantes pour les materieux
@@ -81,10 +81,11 @@ void calcules()
 {
  for(int i=0;i<n;i++)
  {
+   cout<<(double(i)/n)<<endl;
   for(int j=0;j<n;j++)
   { 
     mat temp=c.Calculer((double(i)/n),(double(j)/n));
-    //cout<<(double(i)/n)<<<<endl;
+   
     point[i][j]={temp(0,0),temp(0,1),temp(0,2)};
   }
  }
@@ -98,7 +99,7 @@ void displayCourbe(void)
   for(int j=0;j<n;j++)
   { 
     glBegin(GL_POINTS);
-    glColor3f(1.0,0.0,0.0);
+    glColor3f(0.3,0.3,0.3);
     glVertex3d(point[i][j].x,point[i][j].y,point[i][j].z);
     glEnd(); 
   }
@@ -116,26 +117,30 @@ void displayCourbe(void)
    
   }
  }
-  mat temp=c.DeriverI( u, v);
+
+ mat temp=c.DeriverI((double(u)/n),(double(v)/n));
   glBegin(GL_LINES);
   glColor3f(1.0,0.0,0.0);
-  glVertex3d(point[int(u*n)][int(v*n)].x,point[int(u*n)][int(v*n)].y,point[int(u*n)][int(v*n)].z);
-  glVertex3d(point[int(u*n)][int(v*n)].x+temp(0,0),point[int(u*n)][int(v*n)].y+temp(0,1),point[int(u*n)][int(v*n)].z+temp(0,2));
+  glVertex3d(point[u][v].x,point[u][v].y,point[u][v].z);
+  glVertex3d(point[u][v].x+temp(0,0),point[u][v].y+temp(0,1),point[u][v].z+temp(0,2));
   glEnd(); 
 
- mat temp2=c.DeriverJ( u, v);
+ mat temp2=c.DeriverJ((double(u)/n),(double(v)/n));
   glBegin(GL_LINES);
-  glColor3f(0.0,1.0,0.0);
-  glVertex3d(point[int(u*n)][int(v*n)].x,point[int(u*n)][int(v*n)].y,point[int(u*n)][int(v*n)].z);
-  glVertex3d(point[int(u*n)][int(v*n)].x+temp2(0,0),point[int(u*n)][int(v*n)].y+temp2(0,1),point[int(u*n)][int(v*n)].z+temp2(0,2));
+  glColor3f(0.0,0.0,1.0);
+  glVertex3d(point[u][v].x,point[u][v].y,point[u][v].z);
+ glVertex3d(point[u][v].x+temp2(0,0),point[u][v].y+temp2(0,1),point[u][v].z+temp2(0,2));
   glEnd(); 
 
   Sommet b={(temp(0,1)*temp2(0,2))-(temp(0,2)*temp2(0,1)),(temp(0,2)*temp2(0,0))-(temp(0,0)*temp2(0,2)),(temp(0,0)*temp2(0,1))-(temp(0,1)*temp2(0,0))};
   glBegin(GL_LINES);
-  glColor3f(0.0,0.0,1.0);
-  glVertex3d(point[int(u*n)][int(v*n)].x,point[int(u*n)][int(v*n)].y,point[int(u*n)][int(v*n)].z);
-  glVertex3d(point[int(u*n)][int(v*n)].x+b.x,point[int(u*n)][int(v*n)].y+b.y,point[int(u*n)][int(v*n)].z+b.z);glEnd(); 
+  glColor3f(0.0,1.0,0.0);
+  glVertex3d(point[u][v].x,point[u][v].y,point[u][v].z);
+  glVertex3d(point[u][v].x+b.x,point[u][v].y+b.y,point[u][v].z+b.z);
+  glEnd(); 
 
+
+ 
 }
  
 int main(int argc,char **argv)
@@ -151,7 +156,7 @@ int main(int argc,char **argv)
   /* Initialisation d'OpenGL */
   glClearColor(0.0,0.0,0.0,0.0);
   glColor3f(1.0,1.0,1.0);
-  glPointSize(1.0);
+  glPointSize(5.0);
 	
 	//ifs = new Ifs();
   /* enregistrement des fonctions de rappel */
@@ -228,35 +233,34 @@ void clavier(unsigned char touche,int x,int y)
 
   switch (touche)
   {
-    case '+': //
-      t+=10;
-       if (t > n ) t=n-1;
-      glutPostRedisplay();
-      break;
     case '-': //* ajustement du t
        t-=10;
         if (t < 0 ) t=0;
       glutPostRedisplay();
       break;
     case 'U': //
-      u+=0.1;
-      if (u > n ) u=1;
+      u++;
+      if (u >= n ) 
+      u=0;
       glutPostRedisplay();
       break;
-    case 'u': //* ajustement du t
-      u-=0.1;
-      if (u < 0 ) u=0;
+    case 'u': 
+      u--;
+      if (u < 0 ) 
+      u=n;
       glutPostRedisplay();
       break;
 
     case 'V': //
-      v+=0.1;
-      if (v > n ) v=1;
+      v++;
+      if (v >= n ) 
+      v=0;
       glutPostRedisplay();
       break;
-    case 'v': //* ajustement du t
-      v-=0.1;
-      if (v < 0 ) v=0;
+    case 'v':
+      v--;
+      if (v < 0 ) 
+      v=n;
       glutPostRedisplay();
       break;
 

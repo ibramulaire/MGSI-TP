@@ -63,8 +63,9 @@ void initOpenGl()
 
 
 int t=50 ;
-int n=1000;
-Hermit c(n);
+int n=100;
+Bezier c(n);
+//Hermit c(n);
 Frenet f(0.05);
 std::vector<Sommet>& point=c.getCurveVertices();
 std::vector<Sommet>& rtangente=f.getvecTangent();
@@ -75,6 +76,8 @@ std::vector<Cercle>& Cerclesextrud=f.getCerclesBalayant();
 void calcules()
 {
  c.TousCalculer();
+
+
  f.TousCalculer(c);
 }
 
@@ -231,6 +234,8 @@ void clavier(unsigned char touche,int x,int y)
 
   switch (touche)
     {
+   
+      
     case '+': //
       t+=10;
        if (t >= n ) t=n-1;
