@@ -16,14 +16,14 @@ Sommet Sphere::intersect(Rayon r)
 double a=r.direction.ProduitScalaire(r.direction);
 double b=(r.point.Foi(2)).ProduitScalaire({r.direction.x,r.direction.y,r.direction.z});
 double c=(r.point.ProduitScalaire(r.point)) -(rayon*rayon) ;
-/*std::cout<<"a= " <<a<<std::endl;
+std::cout<<"a= " <<a<<std::endl;
 
 std::cout<<"b= " <<b<<std::endl;
 std::cout<<"c= " <<c<<std::endl;
-*/
+
 double delta=(b*b)-(4*a*c);
 //if(delta>0)
-//std::cout<<"deltat= " <<delta<<std::endl;
+std::cout<<"deltat= " <<delta<<std::endl;
 
 if(delta<0)
 {
@@ -33,7 +33,7 @@ if(delta<0)
 else
 if(delta==0)
 {
-    
+    std::cout<<"deltat= " <<delta<<std::endl;
 return r.getPointAtT((-b/2*a));
 
 }

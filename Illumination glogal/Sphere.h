@@ -19,7 +19,7 @@ class Sphere
     Sommet otherIntersection;
 
 
-    Sphere(Sommet centre ={0,0,0}, double rayon=2);
+    Sphere(Sommet centre ={0,0,0}, double rayon=1);
     ~Sphere();
 
 

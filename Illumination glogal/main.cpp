@@ -57,7 +57,7 @@ void initOpenGl()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-         gluPerspective(60.0f,(GLfloat)200/(GLfloat)200,0.1f,10.0f);
+         gluPerspective(60.0f,(GLfloat)200/(GLfloat)200,0.1f,1000.0f);
 	glMatrixMode(GL_MODELVIEW);
       gluLookAt(0.,0.,10., 0.,0.,0., 0.,1.,0.);
 }
@@ -65,8 +65,8 @@ void initOpenGl()
 
 int t=50 ;
 int n=10000;
-Sphere S;
-Rayon r={{0,0,10},{0,0,-1}};
+Sphere S({0,0,0});
+
 //vector< vector<Sommet> > Grilles;
 
 
@@ -79,14 +79,19 @@ void calcules()
 void displayCourbe(void)
 {
 
-  for(float i=-3;i<3;i+=0.01)
+  for(float i=-1;i<1;i+=0.1) 
   {
 
-   for(float j =-3;j<3;j+=0.01)
+   for(float j =-1;j<1;j+=0.1)
    {
 
-
-   Sommet res= S.intersect({{0,0,10},{i,j,-1}});
+  glPointSize(2.0);
+  glBegin(GL_LINES);
+  glColor3f(0.0,1.0,0.0);
+  glVertex3f(0,0,10);
+  glVertex3f(i,j,1);
+  glEnd(); 
+   Sommet res= S.intersect({{0,0,10},{i,j,1}});
 //cout<<res.x<<" "<<res.y<<" "<<res.z<<endl;
   glPointSize(2.0);
   glBegin(GL_POINTS);
