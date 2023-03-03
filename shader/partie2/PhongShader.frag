@@ -5,52 +5,47 @@ uniform mat4 MVP;//recuperation de la matrice mvp
 uniform mat4 MODEL;
 uniform float silhouette;
 uniform float shad;
-uniform float deformation;
+uniform float materialShininess;
+uniform vec3 materialSpecularColor;
 in vec3 fragPosition;
 in vec3 fragNormale;
+in mat3 jacobienne;
 out vec4 finalColor;
 in vec4 color;
-in mat3 matT;
+vec3 fragNormale2;
 vec4 bordcolor=vec4(0,0,0,0);
 vec4 ambient;
 vec4 difuse ;
 vec4 speculaire;
 float eps=0.5;
 
-
 vec3 CoolColor = vec3(0, 0, 0.6);
 
 vec3 WarmColor = vec3(0.6, 0.6, 0);
 
-
-
-
 void main() 
 {
-
-
-
-    
+    //fragNormale2 = normalize(transpose(inverse(jacobienne))*fragNormale);
     ambient=vec4(light.intensities,1.0)*light.ambientCoefficient;
     vec3 directionlumiere= normalize(light.position-fragPosition); 
-    vec3 normale = normalize(transpose(inverse(mat3(MODEL)))*fragNormale);
+    vec3 normale = normalize(transpose(inverse(mat3(MODEL)*jacobienne))*fragNormale);
     float diffcoef = max(dot(normale, directionlumiere), 0.0);
-   // difuse =vec4(light.intensities*diffcoef,1.0)*color;
-
+  //  difuse =vec4(light.intensities,1.0)*color;
+    
    if(shad==1.0)
    { 
-    if(diffcoef<0.90)
-     difuse =vec4(0.9,0,0.0,1.0);
-    else
-      if(diffcoef<0.60)
-           difuse =vec4(0.6,0,0.0,1.0);
+     if(diffcoef<0.10)
+        difuse =vec4(0.1,0,0.0,1.0);
         else
-            if(diffcoef<0.30)
-                difuse =vec4(0.3,0,0.0,1.0);
+          if(diffcoef<0.30)
+            difuse =vec4(0.3,0,0.0,1.0);
             else
-                if(diffcoef<0.10)
-                    difuse =vec4(0.1,0,0.0,1.0);
+            if(diffcoef<0.60)
+                difuse =vec4(0.6,0,0.0,1.0);
                 else
+                if(diffcoef<0.90)
+                  difuse =vec4(0.9,0,0.0,1.0);
+                    else
                     difuse =vec4(light.intensities,1.0);
    }
    else
@@ -70,17 +65,19 @@ void main()
 
 
    }
- 
+    
     vec3 directionvue= normalize(cameraPosition-fragPosition);
     float vuedircoeff=max(dot(normale, directionvue), 0.0);
     
+    vec3 reflectDir = reflect(-directionlumiere, normale);
+    float specoeff = pow(max(dot(directionvue, reflectDir), 0.0), materialShininess);
+    vec4 specular =vec4( specoeff *materialSpecularColor,1.0);
 
     if(silhouette==1.0&&vuedircoeff<eps)
     finalColor=bordcolor;
     else
-    finalColor=(difuse);
+    finalColor=(difuse+ambient+specular);
 
 
 }
-
 

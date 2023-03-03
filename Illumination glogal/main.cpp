@@ -79,10 +79,10 @@ void calcules()
 void displayCourbe(void)
 {
 
-  for(float i=-1;i<1;i+=0.1) 
+  for(float i=-1;i<1;i+=0.01) 
   {
 
-   for(float j =-1;j<1;j+=0.1)
+   for(float j =-1;j<1;j+=0.01)
    {
 
   glPointSize(2.0);
@@ -91,7 +91,7 @@ void displayCourbe(void)
   glVertex3f(0,0,10);
   glVertex3f(i,j,1);
   glEnd(); 
-   Sommet res= S.intersect({{0,0,10},{i,j,1}});
+   Sommet res= S.intersect({{0,0,10},{i,j,2}});
 //cout<<res.x<<" "<<res.y<<" "<<res.z<<endl;
   glPointSize(2.0);
   glBegin(GL_POINTS);

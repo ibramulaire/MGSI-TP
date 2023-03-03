@@ -1,11 +1,3 @@
-/********************************************************/
-/*                     CubeVBOShader.cpp                         */
-/********************************************************/
-/* Premiers pas avec OpenGL.                            */
-/* Objectif : afficher a l'ecran uncube avec ou sans shader    */
-/********************************************************/
-
-/* inclusion des fichiers d'en-tete Glut */
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -602,10 +594,5 @@ void mouseMotion(int x, int y)
 
     glutPostRedisplay();
 }
-
-
-
-
-
 
 

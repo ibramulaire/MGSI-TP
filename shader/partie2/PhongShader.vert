@@ -9,10 +9,9 @@ layout (location =3) in vec3 normale;//recuperation des normale
 out vec4 color ;
 out vec3 fragPosition;
 out vec3 fragNormale;
-
-out mat3 matT;
-
-
+ 
+out mat3 jacobienne;
+mat3 matT;
  float pincement(float x,float tmin,float tmax)
 {
     float res=1.;
@@ -46,46 +45,66 @@ float tw(float x,float tmin,float tmax,float tethamax)
 return res;
 }
 
-void main(){
-float tmin=0.;
-float tmax=1.;
-float tethamax=2*PI;
-if(deformation==0.0)
-matT=  mat3(
-                        1, 0, 0, 
-                        0, pincement(position.x,tmin,tmax), 0, 
-                        0, 0,pincement(position.x,tmin,tmax) 
+void main()
+{
+  float tmin=0.;
+  float tmax=1.;
+  float tethamax=PI;
+  if(deformation==0.0)
+  {
+      float res=pincement(position.x,tmin,tmax);
+      matT=  mat3(
+                            1, 0, 0, 
+                            0, res, 0, 
+                            0, 0,res
+                        );
+      if( position.x<tmin||position.x>tmax)
+      jacobienne=matT;
+      else
+      jacobienne= mat3(    1, 0, 0, 
+                        (-position.y)/(2*(tmax-tmin)), res,  0,
+                        (-position.z)/(2*(tmax-tmin)),  0,  res
                     );
-else
+                    
+  }
+  
+  else
 
-if(deformation==1.0)
-
-    
+      if(deformation==1.0)
+      {
+        float res=tw(position.x,tmin,tmax,tethamax);
         matT=  mat3(
+                    1,0,0,
+                    0 ,  cos(res), -sin(res),
+                    0,  sin(res), cos(res)  
+                    );   
+         if( position.x<tmin||position.x>tmax)
+          jacobienne=matT;
+          else
+          
+          jacobienne= mat3( 1, 0, 0, 
+                            (tethamax/(tmax-tmin))*(((position.y)*sin(res))+((position.z)*cos(res))),cos(res) ,-sin(res),
+                            (tethamax/(tmax-tmin))*(((position.y)*cos(res))-((position.z)*sin(res))),sin(res) ,cos(res)
+                        );
+      }                 
+      else   
+          {   
+            float coef=exp(-(position.z*position.z+position.y*position.y));
+            matT=  mat3(
 
-                     1,0,0,
-                     0 ,  cos(tw(position.x,tmin,tmax,tethamax)), -sin(tw(position.x,tmin,tmax,tethamax)),
-                     0,  sin(tw(position.x,tmin,tmax,tethamax)), cos(tw(position.x,tmin,tmax,tethamax))
-                     
-                    );     
-                    else   {   
-                      float coef=exp(-(position.z*position.z+position.y*position.y));
-                      matT=  mat3(
+                        1,0,0,
+                        0 ,  cos(tw(position.x,tmin,tmax,tethamax)*coef), -sin(tw(position.x,tmin,tmax,tethamax)*coef),
+                        0,  sin(tw(position.x,tmin,tmax,tethamax)*coef), cos(tw(position.x,tmin,tmax,tethamax)*coef)
+                        
+                        );  
+          }
 
-                                  1,0,0,
-                                  0 ,  cos(tw(position.x,tmin,tmax,tethamax)*coef), -sin(tw(position.x,tmin,tmax,tethamax)*coef),
-                                  0,  sin(tw(position.x,tmin,tmax,tethamax)*coef), cos(tw(position.x,tmin,tmax,tethamax)*coef)
-                                  
-                                  );  
-                    }
-
-    
-    color=vec4(position,1.0);
-    gl_Position= MVP* vec4((matT*position),1.0);
-    fragPosition =vec3(MODEL* vec4((matT*position),1.0));
-  	fragNormale =normale;
-}
-
+      
+      color=vec4(position,1.0);
+      gl_Position= MVP* vec4((matT*position),1.0);
+      fragPosition =vec3(MODEL* vec4((matT*position),1.0));
+      fragNormale =normale;
+  }
 
 
 
