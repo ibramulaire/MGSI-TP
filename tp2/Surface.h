@@ -18,7 +18,7 @@ class Surface
     Sommet grille[4][4];
 
     Sommet S1={-1,-0.5,0};
-    Sommet S2={-0.5,-0.5,0.3};
+    Sommet S2={-0.5,-0.5,0.0};
     Sommet S3={0,-0.5,0.3} ;
     Sommet S4={0.5,-0.5,0};
 

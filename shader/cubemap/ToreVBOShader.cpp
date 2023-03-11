@@ -270,31 +270,33 @@ void initTexture(void)
 {
  int iwidth  , iheight;
    GLubyte *  image = NULL;
- /*
-    image = glmReadPPM("skybox/right.ppm", &iwidth, &iheight);
-	 glGenTextures(1, &bufTexture0);	
-	 glBindTexture(GL_TEXTURE_CUBE_MAP, bufTexture0);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE); 
-	 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
-   image = glmReadPPM("skybox/left.ppm", &iwidth, &iheight);
-   	 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+1, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
-   image = glmReadPPM("skybox/top.ppm", &iwidth, &iheight);
-   	 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+2, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
-  
+ 
+    
+	glGenTextures(1, &bufTexture0);	
+	glBindTexture(GL_TEXTURE_CUBE_MAP, bufTexture0);
+  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE); 
+   
+  image = glmReadPPM("skybox/right.ppm", &iwidth, &iheight);
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image); 
+  image = glmReadPPM("skybox/left.ppm", &iwidth, &iheight);
+  glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
+   
+  image = glmReadPPM("skybox/top.ppm", &iwidth, &iheight);
+  glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
   image = glmReadPPM("skybox/bottom.ppm", &iwidth, &iheight);
-   	 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+3, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
+  glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
 
-       image = glmReadPPM("skybox/back.ppm", &iwidth, &iheight);
-   	 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+4, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
-   image = glmReadPPM("skybox/front.ppm", &iwidth, &iheight);
-   	 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+5, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
-  */ 
+  image = glmReadPPM("skybox/back.ppm", &iwidth, &iheight);
+  glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
+  image = glmReadPPM("skybox/front.ppm", &iwidth, &iheight);
+  glTexImage2D( GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
+  
 
-
+/*
 	 glGenTextures(1, &bufTexture0);	
 	 glBindTexture(GL_TEXTURE_CUBE_MAP, bufTexture0);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -319,7 +321,7 @@ void initTexture(void)
    	 glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, 3, iwidth,iheight, 0, GL_RGB,GL_UNSIGNED_BYTE,image);
 
 
-
+*/
 
 
 

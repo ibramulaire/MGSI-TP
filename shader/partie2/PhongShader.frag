@@ -17,7 +17,7 @@ vec4 bordcolor=vec4(0,0,0,0);
 vec4 ambient;
 vec4 difuse ;
 vec4 speculaire;
-float eps=0.5;
+float eps=0.3;
 
 vec3 CoolColor = vec3(0, 0, 0.6);
 

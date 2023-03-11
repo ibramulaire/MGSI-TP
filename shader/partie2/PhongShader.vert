@@ -49,7 +49,7 @@ void main()
 {
   float tmin=0.;
   float tmax=1.;
-  float tethamax=PI;
+  float tethamax=2*PI;
   if(deformation==0.0)
   {
       float res=pincement(position.x,tmin,tmax);
@@ -90,13 +90,24 @@ void main()
       else   
           {   
             float coef=exp(-(position.z*position.z+position.y*position.y));
+            float res=tw(position.x,tmin,tmax,tethamax);
             matT=  mat3(
 
                         1,0,0,
-                        0 ,  cos(tw(position.x,tmin,tmax,tethamax)*coef), -sin(tw(position.x,tmin,tmax,tethamax)*coef),
-                        0,  sin(tw(position.x,tmin,tmax,tethamax)*coef), cos(tw(position.x,tmin,tmax,tethamax)*coef)
+                        0 ,  cos(res*coef), -sin(res*coef),
+                        0,  sin(res*coef), cos(res*coef)
                         
                         );  
+
+
+            if( position.x<tmin||position.x>tmax)
+              jacobienne=matT;
+              else
+              
+              jacobienne= mat3( 1, 0, 0, 
+                                (tethamax/(tmax-tmin))*(((position.y)*sin(res*coef))+((position.z)*cos(res*coef))),cos(res*coef) ,-sin(res*coef),
+                                (tethamax/(tmax-tmin))*(((position.y)*cos(res*coef))-((position.z)*sin(res*coef))),sin(res*coef) ,cos(res*coef)
+                            );
           }
 
       

@@ -27,19 +27,13 @@ vec3 WarmColor = vec3(0.6, 0.6, 0);
 
 void main() 
 {
-   vec3 directionvue= normalize(cameraPosition-fragPosition);
+   vec3 directionvue= normalize(fragPosition-cameraPosition);
    vec3 normale = normalize(transpose(inverse(mat3(MODEL)))*fragNormale);
-    float ratio = 1.00 / 1.33;
-   vec3 R=reflect(-directionvue,normale);
-    vec3 Rf=refract(-directionvue,normale,ratio);
-   finalColor=texture(ourTexture0,Rf);
+   float ratio = 1.00 / 1.33;
+   vec3 R=reflect(directionvue,normale);
+   vec3 Rf=refract(directionvue,normale,ratio);
+   finalColor=texture(ourTexture0,R);
  
-
-
-   
-    
- 
-  
 
 }
 
