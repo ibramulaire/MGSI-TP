@@ -67,6 +67,9 @@ struct Sommet {
         void affiche()
         {
             glBegin(GL_POINTS);
+            if(y<0)
+            glColor3f(0.0,0.0,1.0);
+            else
             glColor3f(1.0,0.0,0.0);
             glVertex3f(x,y,z);
  

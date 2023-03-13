@@ -18,13 +18,15 @@ void mouse(int, int, int, int);
 void mouseMotion(int, int);
 //void reshape(int,int);
 float t=.5 ;
-#define N 5
+#define N 6
 const int n=pow(2,N)+1;
 
-double intervale=10.;
-double hauteur =3.;
+double intervale=20.;
+double hauteur =0.;
 Sommet montagne[n][n];
-double dimenssion=3.;
+double dimenssion=2.;
+double altitude=0;
+double altitudeneige=2;
 double hmin;
 double hmax;
 
@@ -52,7 +54,7 @@ float cameraDistance=0.;
 double genererAlea(double miny,double maxy )
 {
      double zeroToOne = static_cast <double> (rand()) / (static_cast <double> (RAND_MAX));
-      double r = (1.-zeroToOne)*miny + zeroToOne*maxy;
+     double r = (1.-zeroToOne)*miny + zeroToOne*maxy;
 
 return r;
 }
@@ -116,8 +118,7 @@ void calcules(double h)
           {     
               
             if(ki!=0&&ki!=pas)
-            {
-              
+            {            
               Sommet s1=montagne[ki-i/2][kj];
               Sommet s2=montagne[ki][kj+i/2];
               Sommet s3=montagne[ki+i/2][kj];
@@ -127,9 +128,7 @@ void calcules(double h)
             }
             else
             if(ki==0)
-            { 
-                
-             
+            {            
               Sommet s2=montagne[ki][kj+i/2];
               Sommet s3=montagne[ki+i/2][kj];
               Sommet s4=montagne[ki][kj-i/2];
@@ -138,9 +137,8 @@ void calcules(double h)
             }
             else
             if(ki==pas)
-            {
-               
-             Sommet s1=montagne[ki-i/2][kj];
+            {   
+              Sommet s1=montagne[ki-i/2][kj];
               Sommet s2=montagne[ki][kj+i/2];
               Sommet s4=montagne[ki][kj-i/2];
               Sommet s5=Sommet{(double)(ki),0.,(double)(kj)}.RamenerA(-intervale,intervale ,n-1);
@@ -155,11 +153,9 @@ void calcules(double h)
       for(int ki=i/2;ki<pas;ki+=i) 
       {
         for(int kj=0;kj<=pas;kj+=i)
-        {      
-                    
+        {                        
               if(kj!=0&&kj!=pas)
-              {
-                
+              {  
                 Sommet s1=montagne[ki-i/2][kj];
                 Sommet s2=montagne[ki][kj+i/2];
                 Sommet s3=montagne[ki+i/2][kj];
@@ -186,7 +182,7 @@ void calcules(double h)
                 montagne[ki][kj]={s5.x,Moyenne3( s1,s3,s4,s5,h),s5.z};
               }
       
-            }
+        }
         
       }
 
@@ -216,8 +212,8 @@ void initOpenGl()
   glLightfv(GL_LIGHT0,GL_POSITION,l_pos);
 
   glLightfv(GL_LIGHT0,GL_DIFFUSE,l_pos);
- glLightfv(GL_LIGHT0,GL_SPECULAR,l_pos);
- glEnable(GL_COLOR_MATERIAL);
+  glLightfv(GL_LIGHT0,GL_SPECULAR,l_pos);
+  glEnable(GL_COLOR_MATERIAL);
 
   glDepthFunc(GL_LESS);
   glEnable(GL_DEPTH_TEST);
@@ -236,21 +232,82 @@ void initOpenGl()
 
 void displayCourbe(void)
 {
+   /*
 
- /*glPointSize(5.0);
+ glPointSize(5.0);
  for(int i=0;i<n;i++)
    for(int j=0;j<n;j++)
   
    montagne[i][j].affiche();
-   */
+   
+*/
+
+ for(int i=1;i<n-1;i+=2)
+   for(int j=1;j<n-1;j+=2)
+   {
+   
+   if(montagne[i][j].y<altitude)
+    glColor3f(0.0,0.0,1.0);
+    else
+       if(montagne[i][j].y>altitudeneige)
+    glColor3f(1.0,1.0,1.0);
+    else
+     glColor3f(0.0,1.0,0.0);
+    
+    //gauche
+ 
+    glBegin(GL_TRIANGLES);   
+      glVertex3f(montagne[i][j].x,montagne[i][j].y,montagne[i][j].z);
+      glVertex3f(montagne[i-1][j-1].x,montagne[i-1][j-1].y,montagne[i-1][j-1].z);      
+      glVertex3f(montagne[i+1][j-1].x,montagne[i+1][j-1].y,montagne[i+1][j-1].z);
+    glEnd();
+
+//droite
+ 
+   glBegin(GL_TRIANGLES);
+     
+      
+        glVertex3f(montagne[i][j].x,montagne[i][j].y,montagne[i][j].z);
+        glVertex3f(montagne[i-1][j+1].x,montagne[i-1][j+1].y,montagne[i-1][j+1].z);
+       
+       glVertex3f(montagne[i+1][j+1].x,montagne[i+1][j+1].y,montagne[i+1][j+1].z);
+      glEnd();
+
+      //haut
+
+ glBegin(GL_TRIANGLES);
+     
+        
+        glVertex3f(montagne[i][j].x,montagne[i][j].y,montagne[i][j].z);
+        glVertex3f(montagne[i-1][j-1].x,montagne[i-1][j-1].y,montagne[i-1][j-1].z);
+       
+      glVertex3f(montagne[i-1][j+1].x,montagne[i-1][j+1].y,montagne[i-1][j+1].z);
+      glEnd();
 
 
+//bas
+      
+       glBegin(GL_TRIANGLES);
+     
+        glVertex3f(montagne[i][j].x,montagne[i][j].y,montagne[i][j].z);
+        glVertex3f(montagne[i+1][j-1].x,montagne[i+1][j-1].y,montagne[i+1][j-1].z);
+       
+      glVertex3f(montagne[i+1][j+1].x,montagne[i+1][j+1].y,montagne[i+1][j+1].z);
+      glEnd();
+
+   }
+  
+
+   
+
+/*
   for(int i=0;i<n;i++)
    for(int j=0;j<n;j++)
    {
     if(i<n-1)
     {
       glBegin(GL_LINES);
+     
         glColor3f(0.0,1.0,0.0);
         glVertex3f(montagne[i][j].x,montagne[i][j].y,montagne[i][j].z);
         glVertex3f(montagne[i+1][j].x,montagne[i+1][j].y,montagne[i+1][j].z);
@@ -269,6 +326,7 @@ void displayCourbe(void)
 
    }
 
+*/
     
    
 

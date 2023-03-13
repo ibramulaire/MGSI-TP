@@ -9,7 +9,6 @@ layout (location =3) in vec3 normale;//recuperation des normale
 out vec4 color ;
 out vec3 fragPosition;
 out vec3 fragNormale;
- 
 out mat3 jacobienne;
 mat3 matT;
  float pincement(float x,float tmin,float tmax)

@@ -27,7 +27,7 @@ void main()
     vec3 directionlumiere= normalize(light.position-fragPosition); 
     vec3 normale = normalize(transpose(inverse(mat3(MODEL)))*fragNormale);
     float diffcoef = max(dot(normale, directionlumiere), 0.0);
-  //  difuse =vec4(light.intensities,1.0)*color;
+  //difuse =vec4(light.intensities,1.0)*color;
     
    if(shad==1.0)
    { 
@@ -51,13 +51,8 @@ void main()
     float beta=0.9;
     vec3 kcool    =min(CoolColor,1);
     vec3 kwarm    =min(WarmColor,1);
-
-
     float temp=(dot(directionlumiere,normale)+1)*0.5;
-   
     vec3 kfinal   = mix(kcool, kwarm, temp);
-   
-
     difuse = vec4(min(kfinal , 1.0), 1.0);
 
 

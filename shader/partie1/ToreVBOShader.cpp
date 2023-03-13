@@ -365,10 +365,10 @@ void deleteVBO ()
 //-----------------
 {
     glDeleteBuffers(1, &VBO_sommets);
-   glDeleteBuffers(1, &VBO_normales);
+    glDeleteBuffers(1, &VBO_normales);
     glDeleteBuffers(1, &VBO_indices);
     glDeleteBuffers(1, &VBO_UVtext);
-        glDeleteBuffers(1, &VAO);
+    glDeleteBuffers(1, &VAO);
 }
 
 
