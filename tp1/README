@@ -1,0 +1,7 @@
+Pour compiler taper make
+
+Pour executer taper ./main
+
+Pour changer le type de courbe taper c (Par default c'est besier et le deuxieme c'est hermit)
+
+Pour balader le repère de frenet le long de la courbe taper + ou -
